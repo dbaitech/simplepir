@@ -1,10 +1,13 @@
 package pir
 
-import "math"
-import "strings"
-import "strconv"
-import "fmt"
-import _ "embed"
+import (
+	"fmt"
+	"math"
+	"strconv"
+	"strings"
+
+	_ "embed"
+)
 
 //go:embed params.csv
 var lwe_params string
@@ -60,7 +63,8 @@ func (p *Params) PickParams(doublepir bool, samples ...uint64) {
 			p.Sigma = sigma
 
 			if doublepir {
-				mod, _ := strconv.ParseUint(line[6], 10, 64)
+				valueStr := strings.TrimSpace(line[6])	// remove trailing whitespace characters to prevent silent failure
+				mod, _ := strconv.ParseUint(valueStr, 10, 64)
 				p.P = mod
 			} else {
 				mod, _ := strconv.ParseUint(line[5], 10, 64)
